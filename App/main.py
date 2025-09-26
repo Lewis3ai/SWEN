@@ -28,7 +28,7 @@ def create_app(overrides={}):
     CORS(app)
     add_auth_context(app)
     photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
-    configure_uploads(app, photos)
+    configure_uploads(app, [photos])
     add_views(app)
     init_db(app)
     jwt = setup_jwt(app)

@@ -5,6 +5,9 @@ class Driver(db.Model):
     name = db.Column(db.String(50), nullable=False)
     drives = db.relationship('Drive', backref='driver', lazy=True)
 
+    def __init__(self, name):
+        self.name = name
+
     def get_json(self):
         return {"id": self.id, "name": self.name}
 
@@ -12,6 +15,9 @@ class Street(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     drives = db.relationship('Drive', backref='street', lazy=True)
+
+    def __init__(self, name):
+        self.name = name
 
     def get_json(self):
         return {"id": self.id, "name": self.name}
@@ -25,6 +31,11 @@ class Drive(db.Model):
     location_text = db.Column(db.String(100), default="")
 
     stop_requests = db.relationship('StopRequest', backref='drive', lazy=True)
+
+    def __init__(self, driver_id, street_id, scheduled_at):
+        self.driver_id = driver_id
+        self.street_id = street_id
+        self.scheduled_at = scheduled_at
 
     def get_json(self):
         return {
@@ -42,6 +53,11 @@ class StopRequest(db.Model):
     resident_name = db.Column(db.String(50), nullable=False)
     note = db.Column(db.String(200), default="")
     status = db.Column(db.String(20), default="REQUESTED")  # REQUESTED, SERVICED
+
+    def __init__(self, drive_id, resident_name, note=""):
+        self.drive_id = drive_id
+        self.resident_name = resident_name
+        self.note = note
 
     def get_json(self):
         return {
