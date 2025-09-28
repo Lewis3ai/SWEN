@@ -1,5 +1,160 @@
 ![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
 
+# Bread Van Management System
+A Flask-based web application for managing bread van delivery operations, including driver scheduling, route management, and resident stop requests.
+
+# CLI Commands
+flask init           
+*(Initialize and seed the database with demo data)*
+
+
+## User Management
+flask user create [username] [password]   
+*(Create a new user (defaults: rob/robpass))*
+
+flask user list [format]                  
+*(List all users (format: string or json))*
+
+
+## Bread Van Management
+flask bread seed-data                      
+*(Add demo drivers and streets)*
+
+
+flask bread schedule-drive --driver-id=ID --street-id=ID --time="TIME"
+*(Driver and route management)*
+
+flask bread inbox --street-id=ID          
+*(View scheduled drives for a street)*
+
+flask bread request-stop --drive-id=ID --resident="NAME" --note="MESSAGE"
+flask bread driver-status --drive-id=ID --status="STATUS" --location="LOCATION"
+*(Stop requests and driver updates)*
+
+
+## Example Usage
+flask init
+*(Initialize the database)*
+
+flask user create alice alicepass
+flask user create bob bobpass
+*(Create some users)*
+
+flask bread seed-data
+*(Add demo bread van data)*
+
+flask bread schedule-drive --driver-id=1 --street-id=1 --time="2024-01-15 09:00"
+*(Schedule a bread van drive)*
+
+flask bread inbox --street-id=1
+*(Check what drives are scheduled for a street)*
+
+flask bread request-stop --drive-id=1 --resident="John Smith" --note="Need whole wheat bread"
+*(Resident requests a stop)*
+
+flask bread driver-status --drive-id=1 --status="EN_ROUTE" --location="Main St and 1st Ave"
+*(Driver updates their status)*
+
+## Testing
+flask test user              
+*(Run all user tests)*
+
+flask test user unit         
+*(Run only unit tests)*
+
+flask test user int          
+*(Run only integration tests)*
+
+
+
+## Features
+- Driver Management: Create and manage bread van drivers
+- Street Management: Define delivery routes and streets
+- Schedule Management: Assign drivers to streets with specific delivery times
+- Stop Requests: Allow residents to request stops during scheduled deliveries
+- Real-time Updates: Drivers can update their status and location
+- User Management: Create and manage system users
+
+
+## Technology Stack
+- Backend: Flask (Python)
+- Database: SQLite with SQLAlchemy ORM
+- Authentication: Flask-JWT-Extended
+- Testing: pytest
+- CLI: Flask CLI with custom commands
+- Prerequisites:
+- Python 3.11+
+- Flask
+- SQLAlchemy
+- Flask-JWT-Extended 
+
+
+
+# Debug Mode
+The Flask server runs in debug mode by default, providing:
+- Automatic reloading on code changes
+- Detailed error messages
+- Interactive debugger
+- Troubleshooting
+- Common Issues
+
+### "User already exists" error
+- The system prevents duplicate usernames
+- Use flask user list to see existing users
+- Choose a different username
+
+
+### Database errors
+- Reset the database: flask init (warning: deletes all data)
+- This recreates tables and demo data
+
+### Reset Database
+flask init  *(Drops and recreates all tables with demo data)*
+
+### Data Model
+1. Entities:
+- User: System users with authentication
+- Driver: Bread van drivers (id, name)
+- Street: Delivery routes (id, name)
+- Drive: Scheduled delivery runs (driver + street + time)
+- StopRequest: Resident requests for stops during drives
+
+2. Status Values:
+- Drive Status: SCHEDULED, EN_ROUTE, DONE
+- Stop Request Status: REQUESTED, SERVICED
+
+3. Relationships
+- Driver → Drive (1:many)
+- Street → Drive (1:many)
+- Drive → StopRequest (1:many)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Flask MVC Template
 A template for flask applications structured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/). [Postman Collection](https://documenter.getpostman.com/view/583570/2s83zcTnEJ)
 
