@@ -51,8 +51,7 @@ class StopRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     drive_id = db.Column(db.Integer, db.ForeignKey('drive.id'), nullable=False)
     resident_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    note = db.Column(db.String(200), default="")
-    status = db.Column(db.String(20), default="REQUESTED")  # REQUESTED, SERVICED
+    note = db.Column(db.String(200))
 
     def __init__(self, drive_id, resident_id, note=""):
         self.drive_id = drive_id
