@@ -41,6 +41,17 @@ def list_user_command(format):
     else:
         print(get_all_users_json())
 
+@user_cli.command("assign-street", help="Assign a user to a street")
+@click.option("--user-id", required=True, type=int)
+@click.option("--street-id", required=True, type=int)
+def assign_street_command(user_id, street_id):
+    from App.controllers.user import assign_user_to_street
+    user = assign_user_to_street(user_id, street_id)
+    if user:
+        click.echo(f"User {user.username} assigned to street ID {street_id}")
+    else:
+        click.echo("User not found!")
+
 app.cli.add_command(user_cli)
 
 # -------------------------
@@ -73,11 +84,11 @@ def inbox_command(street_id):
 
 @bread_cli.command("request-stop")
 @click.option("--drive-id", required=True, type=int)
-@click.option("--resident", required=True)
+@click.option("--resident-id", required=True, type=int)
 @click.option("--note", default="")
-def req_stop_command(drive_id, resident, note):
-    s = request_stop(drive_id, resident, note)
-    click.echo(f"Stop requested by {s.resident_name} for drive {drive_id}")
+def req_stop_command(drive_id, resident_id, note):
+    s = request_stop(drive_id, resident_id, note)
+    click.echo(f"Stop requested by user ID {resident_id} for drive {drive_id}")
 
 @bread_cli.command("driver-status")
 @click.option("--drive-id", required=True, type=int)

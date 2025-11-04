@@ -38,3 +38,11 @@ def update_user(id, username):
         db.session.commit()
         return True
     return None
+
+def assign_user_to_street(user_id, street_id):
+    user = get_user(user_id)
+    if user:
+        user.street_id = street_id
+        db.session.commit()
+        return user
+    return None

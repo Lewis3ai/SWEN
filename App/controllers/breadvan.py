@@ -21,8 +21,8 @@ def schedule_drive(driver_id, street_id, time):
 def list_drives(street_id):
     return Drive.query.filter_by(street_id=street_id).all()
 
-def request_stop(drive_id, resident_name, note=""):
-    new_stop = StopRequest(drive_id, resident_name, note)
+def request_stop(drive_id, resident_id, note=""):
+    new_stop = StopRequest(drive_id, resident_id, note)
     db.session.add(new_stop)
     db.session.commit()
     return new_stop

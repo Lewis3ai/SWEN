@@ -50,20 +50,21 @@ class Drive(db.Model):
 class StopRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     drive_id = db.Column(db.Integer, db.ForeignKey('drive.id'), nullable=False)
-    resident_name = db.Column(db.String(50), nullable=False)
+    resident_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     note = db.Column(db.String(200), default="")
     status = db.Column(db.String(20), default="REQUESTED")  # REQUESTED, SERVICED
 
-    def __init__(self, drive_id, resident_name, note=""):
+    def __init__(self, drive_id, resident_id, note=""):
         self.drive_id = drive_id
-        self.resident_name = resident_name
+        self.resident_id = resident_id
         self.note = note
 
     def get_json(self):
         return {
             "id": self.id,
             "drive_id": self.drive_id,
-            "resident_name": self.resident_name,
+            "resident_id": self.resident_id,
+            "resident_name": self.resident.username,
             "note": self.note,
             "status": self.status
         }
